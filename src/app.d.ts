@@ -3,7 +3,23 @@
 declare global {
 	namespace App {
 		// interface Error {}
-		// interface Locals {}
+		interface Locals {
+			user: string;
+			storefront: {
+				shop: {
+					name: string;
+					primaryDomain: {
+						host: string;
+						url: string;
+					};
+					paymentSettings: {
+						currencyCode: string;
+						acceptedCardBrands: string[];
+						enabledPresentmentCurrencies: string[];
+					};
+				};
+			};
+		}
 		// interface PageData {}
 		// interface PageState {}
 		// interface Platform {}

@@ -1,37 +1,56 @@
-// ENV: Shopify
+import { error } from '@sveltejs/kit';
+
+type IO = { query: string; variables: string };
 
 class ShopifyStoreFront {
-	constructor() {}
+	private _endpoint: string;
+	private _key: string;
+
+	constructor(_endpoint: string, _key: string) {
+		this._endpoint = _endpoint;
+		this._key = _key;
+	}
+
+	private async _apiRequest({ query, variables }: IO) {
+		const shopifyRequest = await fetch(this._endpoint, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'X-Shopify-Storefront-Access-Token': this._key
+			},
+			body: JSON.stringify({ query, variables })
+		});
+
+		if (shopifyRequest.status !== 200) {
+			error(404, 'Error fetching data from Shopify');
+		}
+
+		const response = await shopifyRequest.json();
+
+		return response.data;
+	}
+
+	getShopDetails() {
+		return this._apiRequest({
+			query: `
+                query getShopDetails{
+                    shop {
+                        name
+                        primaryDomain{
+                            host
+                            url
+                        }
+                        paymentSettings{
+                            currencyCode
+                            acceptedCardBrands
+                            enabledPresentmentCurrencies
+                        }
+                    }
+                }
+            `,
+			variables: ''
+		});
+	}
 }
 
 export default ShopifyStoreFront;
-
-// export async function shopifyFetch({ query, variables }) {
-//     const endpoint =
-//       import.meta.env.VITE_SHOPIFY_API_ENDPOINT ||
-//       'https://next-js-store.myshopify.com/api/2021-10/graphql.json';
-//     const key =
-//       import.meta.env.VITE_SHOPIFY_STOREFRONT_API_TOKEN || 'ef7d41c7bf7e1c214074d0d3047bcd7b';
-
-//     try {
-//       const result = await fetch(endpoint, {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/json',
-//           'X-Shopify-Storefront-Access-Token': key
-//         },
-//         body: { query, variables } && JSON.stringify({ query, variables })
-//       });
-
-//       return {
-//         status: result.status,
-//         body: await result.json()
-//       };
-//     } catch (error) {
-//       console.error('Error:', error);
-//       return {
-//         status: 500,
-//         error: 'Error receiving data'
-//       };
-//     }
-//   }

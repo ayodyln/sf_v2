@@ -4,6 +4,8 @@
 	import MobileHeader from './MobileHeader.svelte';
 	import CartButton from '$components/cart/CartButton.svelte';
 
+	export let storefront: any;
+
 	const navlinks = [
 		{
 			name: 'Dashboard',
@@ -25,11 +27,7 @@
 		<div class="flex h-16 items-center justify-between">
 			<div class="flex items-center">
 				<div class="flex-shrink-0">
-					<img
-						class="h-8 w-8"
-						src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-						alt="Your Company"
-					/>
+					<img class="h-8 w-8" src="/favicon.png" alt={storefront.shop.name} />
 				</div>
 
 				<div class="hidden md:block">

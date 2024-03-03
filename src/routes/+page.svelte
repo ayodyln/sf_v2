@@ -1,3 +1,6 @@
+<script lang="ts">
+</script>
+
 <!-- layout.svelte -->
 <svelte:head>
 	<title>Home</title>
