@@ -1,6 +1,6 @@
 import type { LayoutServerLoad } from './$types';
+import shopify from '$utils/Shopify';
 
-export const load: LayoutServerLoad = async ({ locals }) => {
-	const storefront = locals.storefront;
-	return { storefront };
+export const load: LayoutServerLoad = async () => {
+	return { shopDetails: await shopify.getShopDetails() };
 };

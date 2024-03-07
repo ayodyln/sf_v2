@@ -1,5 +1,5 @@
-import ShopifyStoreFront from '$utils/Shopify';
-import { SHOPIFY_API_ENDPOINT, SHOPIFY_STOREFONT_API_TOKEN } from '$env/static/private';
+// import ShopifyStoreFront from '$utils/Shopify';
+// import { SHOPIFY_API_ENDPOINT, SHOPIFY_STOREFONT_API_TOKEN } from '$env/static/private';
 
 export async function handle({ event, resolve }) {
 	// this cookie would be set inside a login route
@@ -12,8 +12,5 @@ export async function handle({ event, resolve }) {
 	// and passed to handlers inside `+page.ts`
 
 	//* Shopify Client
-	const shopify = new ShopifyStoreFront(SHOPIFY_API_ENDPOINT, SHOPIFY_STOREFONT_API_TOKEN);
-	event.locals.storefront = await shopify.getShopDetails();
-
 	return resolve(event);
 }

@@ -13,5 +13,9 @@ export const GET: RequestHandler = ({ url }) => {
 
 	const random = min + Math.random() * d;
 
-	return new Response(String(random));
+	return new Response(JSON.stringify({ random }), {
+		headers: {
+			'content-type': 'application/json'
+		}
+	});
 };
